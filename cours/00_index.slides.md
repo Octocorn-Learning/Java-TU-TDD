@@ -1,5 +1,5 @@
 ---
-title: Template
+title: Index
 theme: solarized
 author: Alexandre Devos
 company: Octocorn
@@ -9,4 +9,5 @@ contributors:
 
 # Index
 
-- [Exemple](./cours/exemple.html)
+- [Introduction](01_introduction.slides.html)
+- [Les tests unitaires](02_tests_unitaires.slides.html)

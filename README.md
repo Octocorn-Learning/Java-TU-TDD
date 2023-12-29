@@ -5,19 +5,30 @@
 
 ## Description et objectifs 🎯
 
-<!--- Décrire le cours en quelques lignes -->
+Ce cours a pour objectif d'apprendre à réaliser des tests unitaires en Java, et de découvrir la TDD (Test Driven Development).
+Il s'adresse à des personnes ayant déjà des connaissances en Java et en programmation orientée objet.
+
+## Prérequis 📋
+
+- [Java](https://github.com/Octocorn-Learning/Java-POO)
 
 ## Plan de cours 🗺️
 
-<!--- 
-- [ ] Chapitre
--->
+- [ ] Introduction
+    - Les différents types de tests
+- [ ] Les tests unitaires
+    - Les tests unitaires à proprement parler
+    - Les outils de tests en Java
+      - JUnit
+      - Mockito
+    - Bonnes pratiques de tests
+- [ ] TDD par la pratique
 
 ## Suivre ce cours 📚
 
 ### En autonomie 🚀
 
-Le cours est Open Source, vous pouvez donc le suivre en autonomie en vous rendant sur la page [GitHub]() du cours.  
+Le cours est Open Source, vous pouvez donc le suivre en autonomie en vous rendant sur la page [GitHub](https://octocorn-learning.github.io/Java-TU-TDD/#/) du cours.  
 Vous pouvez bénéficier des explications et des exercices. Enjoy ! ❤️
 
 ### En présentiel/distanciel 🎓
