@@ -14,14 +14,14 @@ Il s'adresse à des personnes ayant déjà des connaissances en Java et en progr
 
 ## Plan de cours 🗺️
 
-- [ ] Introduction
+- [x] Introduction
     - Les différents types de tests
 - [ ] Les tests unitaires
     - Les tests unitaires à proprement parler
+    - Bonnes pratiques de tests
     - Les outils de tests en Java
       - JUnit
       - Mockito
-    - Bonnes pratiques de tests
 - [ ] TDD par la pratique
 
 ## Suivre ce cours 📚
