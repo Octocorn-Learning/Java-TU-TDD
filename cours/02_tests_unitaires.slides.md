@@ -1860,7 +1860,7 @@ On distingue deux approches :
 
 ### A vous de jouer !
 
-Réalisez le TP 3 !
+Réalisez le TP 2 !
 
 ---
 
