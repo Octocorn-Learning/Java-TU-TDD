@@ -119,7 +119,8 @@ Les tests sont découpés en 3 étapes :
 
 ### Arrange
 
-On prépare l'environnement de test : 
+On prépare l'environnement de test :
+
 - Création des classes nécessaires
 - Création des **mocks** (simulations de dépendances)
 
@@ -130,6 +131,7 @@ On prépare l'environnement de test :
 ### Act
 
 On exécute la méthode à tester :
+
 - Appel de la méthode
 - Récupération du résultat si nécessaire
 
@@ -140,6 +142,7 @@ On exécute la méthode à tester :
 ### Assert
 
 On vérifie que le résultat obtenu est bien celui attendu :
+
 - Comparaison du résultat avec le résultat attendu
 
 > `assertEquals(4, resultat);`
@@ -300,7 +303,7 @@ public class HelloWorldTest {
 
 ### Calculatrice
 
-`src/main/java/fr/octocorn/tu/demo/calculatrice` 
+`src/main/java/fr/octocorn/tu/demo/calculatrice`
 
 ```java
 package fr.octocorn.tu.demo.calculatrice;
@@ -357,7 +360,7 @@ public class Calculatrice {
 
 ### Calculatrice
 
-`src/test/java/fr/octocorn/tu/demo/calculatrice` 
+`src/test/java/fr/octocorn/tu/demo/calculatrice`
 
 ```java
 public class CalculatriceTest {
@@ -412,16 +415,16 @@ public class CalculatriceTest {
         // NB : ils doivent être déclarés en haut de la classe !
         calculatrice = new Calculatrice();
     }
-    
+
     @Test
     public void testAdditionner() {
         // Arrange
         premierNombre = 1;
         secondNombre = 2;
-        
+
         // Act
         float result = calculatrice.additionner(premierNombre, secondNombre);
-        
+
         // Assert
         assertEquals(3, result);
     }
@@ -431,10 +434,10 @@ public class CalculatriceTest {
         // Arrange
         premierNombre = 1;
         secondNombre = 2;
-        
+
         // Act
         float result = calculatrice.soustraire(premierNombre, secondNombre);
-        
+
         // Assert
         assertEquals(-1, result);
     }
@@ -444,10 +447,10 @@ public class CalculatriceTest {
         // Arrange
         premierNombre = 1;
         secondNombre = 2;
-        
+
         // Act
         float result = calculatrice.multiplier(premierNombre, secondNombre);
-        
+
         // Assert
         assertEquals(2, result);
     }
@@ -457,10 +460,10 @@ public class CalculatriceTest {
         // Arrange
         premierNombre = 1;
         secondNombre = 2;
-        
+
         // Act
         float result = calculatrice.diviser(premierNombre, secondNombre);
-        
+
         // Assert
         assertEquals(0.5, result);
     }
@@ -486,6 +489,7 @@ public class CalculatriceTest {
 - L'annotation `@DisplayName` permet de donner un nom plus explicite au test
 
 ```java
+
 @DisplayName("Test de la méthode additionner")
 @Test
 public void testAdditionner() {
@@ -534,10 +538,10 @@ public void testAdditionner() {
 @ValueSource(ints = {1, 2, 3, 4, 5})
 // Paramètres qui doivent être injectés dans la méthode
 public void testSoustraire(int nombre) {
-    
+
     // Act
     float result = calculatrice.soustraire(nombre, nombre);
-    
+
     // Assert
     assertEquals(0, result);
 }
@@ -558,6 +562,7 @@ public void testSoustraire(int nombre) {
 ### Tests paramétrés - CsvSource
 
 ```java
+
 @DisplayName("Test des additions")
 @ParameterizedTest(name = "Test {index} : {0} + {1} = {2}")
 // On définit les paramètres sous forme de csv
@@ -571,7 +576,7 @@ public void testSoustraire(int nombre) {
 public void testAdditionner(int premierNombre, int secondNombre, int resultatAttendu) {
     // Act
     float result = calculatrice.additionner(premierNombre, secondNombre);
-    
+
     // Assert
     assertEquals(resultatAttendu, result);
 }
@@ -586,7 +591,7 @@ public void testAdditionner(int premierNombre, int secondNombre, int resultatAtt
 - `{0}` correspond au premier paramètre
 - `{1}` correspond au second paramètre, etc.
 </script></section><section data-markdown><script type="text/template">
-## Démonstration ! 
+## Démonstration !
 
 Refactoring des tests de la calculatrice en tests paramétrés
 </script></section><section data-markdown><script type="text/template">
@@ -666,7 +671,7 @@ public class CalculatriceTest {
             "4, 5, 20",
             "5, 6, 30"
     })
-    public void testMultiplier( float premierNombre, float secondNombre, float resultatAttendu) {
+    public void testMultiplier(float premierNombre, float secondNombre, float resultatAttendu) {
         // Act
         float result = calculatrice.multiplier(premierNombre, secondNombre);
 
@@ -702,6 +707,7 @@ public class CalculatriceTest {
 ### Test des exceptions
 
 Oui... Et non :
+
 - Les exceptions sont des cas particuliers
 - Elles doivent être testées uniquement si elles sont susceptibles d'être levées
 
@@ -769,16 +775,17 @@ private void verifierDivisionParZero(float secondNombre) throws IllegalArgumentE
 Avec le message d'erreur :
 
 ```java
+
 @DisplayName("Test de la division par zéro")
-    @ParameterizedTest(name = "Test {index} : {0} / 0")
-    @ValueSource(floats = {1, 10, 500, 1000})
-    public void testDiviserParZero(float premierNombre) {
-        IllegalArgumentException exception;
-        
-        exception = assertThrows(IllegalArgumentException.class, () -> calculatrice.diviser(premierNombre, 0));
-        
-        assertEquals("La division par zéro est impossible", exception.getMessage());
-    }
+@ParameterizedTest(name = "Test {index} : {0} / 0")
+@ValueSource(floats = {1, 10, 500, 1000})
+public void testDiviserParZero(float premierNombre) {
+    IllegalArgumentException exception;
+
+    exception = assertThrows(IllegalArgumentException.class, () -> calculatrice.diviser(premierNombre, 0));
+
+    assertEquals("La division par zéro est impossible", exception.getMessage());
+}
 ```
 </script></section><section data-markdown><script type="text/template">
 ## JUnit
@@ -788,16 +795,17 @@ Avec le message d'erreur :
 Avec la classe de l'erreur :
 
 ```java
+
 @DisplayName("Test de la division par zéro")
-    @ParameterizedTest(name = "Test {index} : {0} / 0")
-    @ValueSource(floats = {1, 10, 500, 1000})
-    public void testDiviserParZero(float premierNombre) {
-        IllegalArgumentException exception;
-        
-        exception = assertThrows(IllegalArgumentException.class, () -> calculatrice.diviser(premierNombre, 0));
-        
-        assertEquals(IllegalArgumentException.class, exception.getClass());
-    }
+@ParameterizedTest(name = "Test {index} : {0} / 0")
+@ValueSource(floats = {1, 10, 500, 1000})
+public void testDiviserParZero(float premierNombre) {
+    IllegalArgumentException exception;
+
+    exception = assertThrows(IllegalArgumentException.class, () -> calculatrice.diviser(premierNombre, 0));
+
+    assertEquals(IllegalArgumentException.class, exception.getClass());
+}
 ```
 </script></section><section data-markdown><script type="text/template">
 ## JUnit
@@ -807,15 +815,16 @@ Avec la classe de l'erreur :
 Ou, en utilisant une lambda (à préférer) :
 
 ```java
+
 @DisplayName("Test de la division par zéro")
-    @ParameterizedTest(name = "Test {index} : {0} / 0")
-    @ValueSource(floats = {1, 10, 500, 1000})
-    public void testDiviserParZero(float premierNombre) {
-        assertThrows(
-                IllegalArgumentException.class, 
-                () -> calculatrice.diviser(premierNombre, 0)
-        );
-    }
+@ParameterizedTest(name = "Test {index} : {0} / 0")
+@ValueSource(floats = {1, 10, 500, 1000})
+public void testDiviserParZero(float premierNombre) {
+    assertThrows(
+            IllegalArgumentException.class,
+            () -> calculatrice.diviser(premierNombre, 0)
+    );
+}
 ```
 </script></section><section data-markdown><script type="text/template">
 ## JUnit
@@ -860,12 +869,6 @@ Ou, en utilisant une lambda (à préférer) :
 </script></section><section data-markdown><script type="text/template">
 ## JUnit
 
-### À vous de jouer !
-
-Réalisez le TP 1 !
-</script></section><section data-markdown><script type="text/template">
-## JUnit
-
 ### MethodSource
 
 - `@MethodSource` permet de définir les paramètres sous forme de méthode
@@ -881,27 +884,801 @@ Réalisez le TP 1 !
 ### MethodSource - Exemple
 
 ```java
+
 @DisplayName("Test des additions")
 @ParameterizedTest(name = "Test {index} : {0} + {1} = {2}")
 @MethodSource("argumentsAdditionner")
-public void testAdditionner(float[] nombres) {
+public void testAdditionner(float[] nombres, float resultatAttendu) {
     // Act
     float result = calculatrice.additionner(nombres[0], nombres[1]);
 
     // Assert
-    assertEquals(nombres[2], result);
+    assertEquals(resultatAttendu, result);
 }
 
 private static Stream<Arguments> argumentsAdditionner() {
     return Stream.of(
-            Arguments.of((Object) new float[]{1, 2, 3}),
-            Arguments.of((Object) new float[]{2, 3, 5}),
-            Arguments.of((Object) new float[]{3, 4, 7}),
-            Arguments.of((Object) new float[]{4, 5, 9})
+            Arguments.of((Object) new float[]{1, 2}, 3),
+            Arguments.of((Object) new float[]{2, 3}, 5),
+            Arguments.of((Object) new float[]{3, 4}, 7),
+            Arguments.of((Object) new float[]{4, 5}, 9)
     );
 }
 ```
-</script></section></section></div>
+</script></section><section data-markdown><script type="text/template">
+## JUnit
+
+### À vous de jouer !
+
+Réalisez le TP 1 !
+</script></section></section><section ><section data-markdown><script type="text/template">
+# Tests unitaires
+
+## Mockito
+
+![Mockito](assets/mockito.png) <!-- .element width="50%"  align="right" -->
+
+![java](assets/java.png) <!-- .element width="10%"  align="left" -->
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Présentation
+
+- Mockito est un framework de tests unitaires pour Java
+
+- Il permet de créer des **mocks** (simulations de dépendances)
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Mock
+
+- Un mock est une simulation d'une classe
+
+- Elle permet de rédiger des tests unitaires sans dépendre d'autres classes
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Exemple
+
+- Vous avez une classe `Utilisateur` qui dépend d'une classe `Adresse`
+
+- Vous souhaitez rédiger les tests unitaires de la classe `Utilisateur`
+
+- Sans mock, vous devez créer une instance de `Adresse` pour chaque test
+
+> Mais que se passe-t-il si la classe `Adresse` a un bug ?
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Exemple
+
+- Les mock permettent d'éviter tout problème éventuel avec une dépendance
+
+- Ils permettent de se concentrer sur la classe à tester
+
+- On évitera ainsi les faux négatifs
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Les types de mock
+
+Il existe plusieurs outils pour simuler des dépendances :
+
+- Les stubs
+- Les mocks
+- Les spies
+
+> Chaque type a ses avantages et ses inconvénients !
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Les stubs
+
+- Objet fictif qui simule un objet réel
+
+- Un type de mock très simple
+
+- Sert généralement à retourner des données contrôlées
+
+- Ne dispose pas de comportement
+
+> Exemple : simuler la réponse d'une API/BDD
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Les mocks
+
+- Le plus utilisé !
+
+- Stub qui dispose d'un comportement
+
+- On peut définir des comportements pour chaque méthode
+
+> Permet de simuler une classe complète, implémentée ou non !
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Les spies
+
+- Version partielle d'un objet réel
+
+- Contrairement aux mocks, les méthodes non définies sont appelées
+
+- On contrôlera généralement le fait qu'une méthode a été appelée, et pas nécessairement son résultat
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Installation
+
+- Mockito est disponible sur [Maven Central](https://mvnrepository.com/artifact/org.mockito/mockito-core)
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>5.8.0</version>
+    <scope>test</scope>
+</dependency>
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Créer un stub
+
+Syntaxe :
+
+```java
+TypeDeLaClasse nomDuStub = mock(TypeDeLaClasse.class, params);
+```
+
+- `TypeDeLaClasse` : Le type de la classe à simuler
+- `nomDuStub` : Le nom du stub
+- `TypeDeLaClasse.class` : Le type de la classe à simuler
+- `params` : Les paramètres de la classe à simuler
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Paramètres d'un stub
+
+Le second paramètre de la méthode `mock` permet de définir le comportement du stub.  
+Il peut s'agir de :
+
+- Une constante,
+- Une lambda de type `Answer`,
+
+> Il existe beaucoup de constantes prédéfinies !
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Paramètres d'un stub - Constantes
+
+- `RETURNS_DEFAULTS` : Retourne la valeur par défaut du type de retour
+- `RETURNS_SMART_NULLS` : Retourne une valeur intelligente
+- `RETURNS_MOCKS` : Retourne un mock
+- `RETURNS_DEEP_STUBS` : Retourne un stub imbriqué
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Paramètres d'un stub - Answer
+
+- `Answer` est une interface fonctionnelle
+
+- Elle permet de définir un comportement personnalisé
+
+```java
+Foo stubFoo = mock(Foo.class, new Answer<Object>() {
+    @Override
+    public Object answer(InvocationOnMock invocation) {
+        return "custom return value";
+    }
+});
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Les Mocks
+
+- Un mock est un stub qui dispose d'un comportement plus avancé
+
+- On pourra intercepter chaque appel de méthode et définir ce qui est retourné
+
+- On pourra également vérifier les paramètres passés à chaque méthode
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Créer un mock
+
+Syntaxe :
+
+```java
+TypeDeLaClasse nomDuMock = mock(TypeDeLaClasse.class);
+```
+
+- `TypeDeLaClasse` : Le type de la classe à simuler
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Définir le comportement d'un mock
+
+```java
+TypeDeLaClasse nomDuMock = mock(TypeDeLaClasse.class);
+when(nomDuMock.nomMethode()).thenReturn(valeur);
+```
+
+- `nomDuMock` : Le nom du mock
+- `nomMethode` : Le nom de la méthode à simuler
+- `valeur` : La valeur à retourner
+
+> A chaque fois que `nomMethod` est appelée, `valeur` est retournée
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Récupérer les arguments d'un mock
+
+```java [0 | 2 | 4]
+TypeDeLaClasse nomDuMock = mock(TypeDeLaClasse.class);
+ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+when(nomDuMock.nomMethode(argument.capture())).thenReturn(valeur);
+String argumentCapture = argument.getValue();
+```
+
+- `ArgumentCaptor` permet de récupérer les arguments passés à une méthode
+
+> Ici, on récupère le premier argument de la méthode `nomMethode`
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Méthode plus avancée
+
+```java
+TypeDeLaClasse nomDuMock = mock(TypeDeLaClasse.class);
+when(nomMock.nomMethode()).thenAnswer(invocation -> {
+    Object[] argumentsDeLaMethode = invocation.getArguments();
+    return "called with arguments: " + Arrays.toString(argumentsDeLaMethode);
+});
+```
+
+- `invocation` : L'invocation de la méthode
+- `getArguments` : Récupère les arguments passés à la méthode
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Pourquoi ?
+
+> Quitte à redéfinir le comportement, pourquoi ne pas utiliser l'objet pour se simplifier la vie ?
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Pourquoi ?
+
+- En théorie, la dépendence à déjà été testée. 
+
+- Il serait inutile de la tester à nouveau !
+
+- On veut aussi éviter les erreurs !
+
+> On ne cherche pas à tester la dépendance, mais interaction !
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Les spies
+
+- Un spy permet de vérifier un appel réel d'une méthode
+
+- On pourra vérifier que la méthode a été appelée, mais pas son résultat
+
+- On pourra également définir un comportement personnalisé
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Créer un spy
+
+Syntaxe :
+
+```java
+TypeDeLaClasse nomDuSpy = spy(TypeDeLaClasse.class);
+```
+
+- `TypeDeLaClasse` : Le type de la classe à simuler
+- `nomDuSpy` : Le nom du spy
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Définir le comportement d'un spy
+
+```java
+TypeDeLaClasse nomDuSpy = spy(TypeDeLaClasse.class);
+doReturn(valeur).when(nomDuSpy).nomMethode();
+```
+
+> Syntaxe similaire à celle des mocks
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Vérifier un appel
+
+```java
+TypeDeLaClasse nomDuSpy = spy(TypeDeLaClasse.class);
+nomDuSpy.nomMethode();
+verify(nomDuSpy).nomMethode();
+```
+
+- `verify` permet de vérifier qu'une méthode a été appelée
+
+- Fonctionne aussi avec les mocks
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Vérifier un appel avec des paramètres
+
+```java
+TypeDeLaClasse nomDuSpy = spy(TypeDeLaClasse.class);
+nomDuSpy.nomMethode("param1", "param2");
+verify(nomDuSpy).nomMethode("param1", "param2");
+```
+
+- Ici on vérifie l'appel de la méthode
+
+- On s'assure qu'elle a été appelée avec les bons paramètres
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Et si on ne connaît pas les paramètres ?
+
+On peut utiliser `any` :
+
+```java
+TypeDeLaClasse nomDuSpy = spy(TypeDeLaClasse.class);
+nomDuSpy.nomMethode("param1", "param2");
+verify(nomDuSpy).nomMethode(any(), anyString());
+```
+
+- `anyString` permet de définir une chaîne de caractères quelconque
+- Il y a aussi `anyInt`, `anyBoolean`, etc.
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Compter le nombre d'appels
+
+```java
+TypeDeLaClasse nomDuSpy = spy(TypeDeLaClasse.class);
+nomDuSpy.nomMethode();
+nomDuSpy.nomMethode();
+verify(nomDuSpy, times(2)).nomMethode();
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Les automocks
+
+- Mockito permet de créer des mocks automatiquement
+
+- Pour ce faire, il y a une dépendance à ajouter dans le `pom.xml`
+
+```xml
+<dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>5.3.1</version>
+      <scope>test</scope>
+    </dependency>
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Les automocks
+
+- Il suffit d'annoter la classe à mocker avec `@Mock`
+
+- On pourra alors injecter les mocks avec `@InjectMocks`
+
+- Il faut également ajouter `@ExtendWith(MockitoExtension.class)`
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Exemple
+
+Avec le diagramme suivant : 
+
+![Hero](assets/hero.png)
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Exemple
+
+`Hero.java`
+
+```java
+public class Hero {
+    private final Identity identity;
+    private List<Power> powers;
+
+    public Hero(Identity identity, List<Power> powers) {
+        this.identity = identity;
+        this.setPowers(powers);
+    }
+
+    public List<Power> getPowers() {
+        return powers;
+    }
+
+    public void setPowers(List<Power> powers) {
+        this.powers = powers;
+    }
+
+    public String removeCostume() {
+        return "Le héro enlève son costume. Il redevient " + identity.getIdentity();
+    }
+
+    public String fight() {
+        return this.getRandomPower().usePower();
+    }
+
+    private Power getRandomPower() {
+        int index = (int) Math.floor(Math.random() * powers.toArray().length);
+        return this.getPowers().get(index);
+    }
+}
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Exemple
+
+`Identity.java`
+
+```java
+public class Identity {
+    private String firstName;
+    private String lastName;
+
+    private String job;
+
+    public Identity(String firstName, String lastName, String job) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.job = job;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getIdentity() {
+        return firstName + " " + lastName + ": " + job;
+    }
+}
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Exemple
+
+`Power.java`
+
+```java
+package fr.octocorn.tu.demo.superhero;
+
+public class Power {
+    private final String name;
+    private final String description;
+
+    public Power(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String usePower() {
+        return "Le héro utilise " + name + " et " + description;
+    }
+}
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Exemple
+
+Test manuel :
+
+```java
+class HeroTest {
+
+    private Hero hero;
+
+    @BeforeEach
+    void setUp() {
+        List<Power> powers = new ArrayList<>();
+
+        Power powerMock = mock(Power.class);
+        when(powerMock.getName()).thenReturn("Super force");
+        when(powerMock.getDescription()).thenReturn("soulève des montagnes");
+        when(powerMock.usePower()).thenReturn(
+                "Le héro utilise son pouvoir : Super force qui soulève des montagnes"
+        );
+        powers.add(powerMock);
+
+        Identity identityMock = mock(Identity.class);
+        when(identityMock.getIdentity()).thenReturn("Bruce Wayne: Riche héritier");
+
+        hero = new Hero(identityMock, powers);
+    }
+
+    @DisplayName("Test de la méthode removeCostume")
+    @Test
+    public void removeCostume() {
+        // When
+        String result = hero.removeCostume();
+        // Then
+        assertEquals(
+                "Le héro enlève son costume. Il redevient Bruce Wayne: Riche héritier",
+                result
+        );
+    }
+
+    @DisplayName("Test de la méthode fight")
+    @Test
+    public void fight() {
+        // When
+        String result = hero.fight();
+        // Then
+        assertEquals(
+                "Le héro utilise son pouvoir : Super force qui soulève des montagnes",
+                result
+        );
+    }
+
+}
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Exemple
+
+Test avec automocks :
+
+```java
+@ExtendWith(MockitoExtension.class)
+class HeroAutoTest {
+
+    @Mock
+    private Identity identity;
+
+    @Mock
+    private Power power;
+
+
+    @InjectMocks
+    private Hero hero;
+
+    @BeforeEach
+    void setUp() {
+        List<Power> powers = new ArrayList<>();
+        powers.add(power);
+        hero.setPowers(powers);
+    }
+
+    @DisplayName("Test de la méthode removeCostume")
+    @Test
+    public void removeCostume() {
+        // When
+        String result = hero.removeCostume();
+        // Then
+        verify(
+                identity,
+                times(1)
+        ).getIdentity();
+        assertEquals(
+                "Le héro enlève son costume. Il redevient " + identity.getIdentity(),
+                result
+        );
+    }
+
+    @DisplayName("Test de la méthode fight")
+    @Test
+    public void fight() {
+        // Given
+
+        // When
+        String result = hero.fight();
+        // Then
+        verify(
+                power,
+                times(1)
+        ).usePower();
+        assertEquals(
+                power.usePower(),
+                result
+        );
+    }
+}
+```
+</script></section><section data-markdown><script type="text/template">
+## Mockito
+
+### Stub, Spiers ou Mocks ?
+
+- Les stubs sont utiles pour les données
+
+- Les mocks sont utiles pour les tests unitaires de classes avec comportement
+
+- Les spies sont utiles pour les tests d'intégration !
+</script></section></section><section ><section data-markdown><script type="text/template">
+# Tests unitaires
+
+## Les approches
+
+![java](assets/java.png) <!-- .element width="10%"  align="left" -->
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Les approches
+
+On distingue deux approches :
+
+- Le test before
+
+- Le test after
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le test before
+
+- On écrit les tests avant de coder
+
+- On décrit la fonctionnalité attendue entièrement avec son fonctionnement final
+
+- Puis, on rédige le code pour que les tests passent
+
+> On peut utiliser les tests paramétrés pour tester plusieurs cas
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le test before - Avantages
+
+- Les `specs` sont souvent définis avant le développement
+
+- Ils assurent que la feature soit développée, sans mauvaise compréhension
+
+- Ils guident le développeur et lèvent les ambiguïtés
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le test before - Inconvénients
+
+- Implique un effort de rédaction supplémentaire
+
+- Souvent rédigé par une autre personne que le développeur
+
+- Peut-être difficile à appréhender et être 'désespérant'
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le test after
+
+- Le plus utilisé
+
+- On écrit le code avant de rédiger les tests
+
+- Puis, on s'assure que le code fonctionne avec les tests
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le test after - Avantages
+
+- Test le code qui vient d'être écrit
+
+- Peut être fait par le même développeur, ou un testeur dédié
+
+- Génère souvent une phase de refactorisation du code
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le test after - Inconvénients
+
+- Risque de rédiger des tests qui ne sont pas pertinents
+
+- Risque de rédiger des tests erronés 'pour les faire passer'
+
+- Allonge le temps de développement
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Faut-il tester systématiquement ?
+
+- Idéalement oui !
+
+- On considère que l'ajout de test augmente de 20% le temps de développement
+
+- Ce temps est largement rentabilisé par la suite, car moins de bugs ou des bugs plus simples à corriger
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Dans la vraie vie
+
+- L'ajout ou non de test dépend généralement du client
+
+- Si tout le monde s'accorde à dire que c'est important, il n'est pas toujours possible de le faire
+
+- Il faut donc trouver un compromis
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le coverage
+
+- Le coverage est un indicateur de qualité du code
+
+- Il désigne combien de % du code est couvert par les tests
+
+- Il est généralement calculé par un outil
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le coverage
+
+- Un bon coverage est généralement supérieur à 80%
+
+- On utilisera généralement l'approche du '80/20'
+
+- On ne testera pas les méthodes privées, les getters/setters, etc.
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Le 80/20
+
+- On considère que 80% du code sera fait en 20% du temps
+
+- Les 20% restants seront fait en 80% du temps
+
+> Ici, on l'applique aux tests !
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### Pourquoi 80% ?
+
+- 80% est un bon compromis, car il permet de tester les cas les plus importants
+
+- Les 20% restants sont généralement des cas particuliers, en marge de l'usage normal
+
+> Aller au-delà reviendrait à tester des cas qui n'arriveront peut-être jamais !
+</script></section><section data-markdown><script type="text/template">
+## Tests unitaires
+
+### A vous de jouer !
+
+Réalisez le TP 3 !
+</script></section></section><section  data-markdown><script type="text/template">
+# La suite !
+
+[Index](index.html)</script></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
