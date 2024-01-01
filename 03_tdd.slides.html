@@ -712,8 +712,245 @@ Vérifier un numéro ISBN
 ### A vous de jouer !
 
 Réalisez le TP 3
+</script></section></section><section ><section data-markdown><script type="text/template">
+# TDD
 
-----</script></section></section></div>
+## Legacy Code
+
+![red-green-refactor](assets/red-green-refactor.png) <!-- .element width="40%"  align="right" -->
+
+![java](assets/java.png) <!-- .element width="19%"  align="left" -->
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code
+
+- **Legacy Code** : code existant, hérité
+
+- A généralement mauvaise réputation
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code
+
+Les problèmes du legacy code :
+
+- Pratiques anciennes, obsolètes, voire mauvaises
+
+- Les rédacteurs ne sont plus forcément présents (ou ne se souviennent plus)
+
+- La documenta**QUOI** ?!
+
+> Bref, souvent un vrai casse-tête !
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code
+
+> Mais du coup, comment appliquer la TDD à un code existant ?
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code
+
+Tout dépend de ce qui nous pousse à vouloir appliquer la TDD :
+
+- Ajout d'une nouvelle fonctionnalité
+
+- Refacoriser la codebase complète
+
+- Résoudre un bug
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code : Refactoriser
+
+Quelques étapes :
+
+- Définir sa "roadmap" de refactorisation
+
+- Rédiger les test de cette feature
+
+- Refactoriser et faire passer les tests à chaque étape
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code : Refactoriser
+
+L'intérêt de la TDD :
+
+- Tester avant de refactoriser augmente votre compréhension du code
+
+- Si vous cassez quelque chose, vous le saurez tout de suite !
+
+- Vous travaillerez globalement plus vite
+
+> C'est reculer pour mieux sauter
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code : Ajouter une feature
+
+Quelques étapes :
+
+- On ne rédige que les tests de la nouvelle feature
+
+- Si notre feature doit toucher à du legacy, on ne touchera que les parties impactées
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code : Corriger un bug
+
+Quelques étapes :
+
+- On ne crée les tests que pour la feature qui bug
+
+- On augmente notre niveau de compréhension des attendus
+
+- Et puis on corrige !
+
+> On cherche toujours à apporter les changements **minimums** !
+
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Legacy Code
+
+Dans tous les cas, on commence par déterminer : 
+
+- Les aspérités (if, switch, etc.)
+
+- Les boucles
+
+- Les dépendances
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Deux écoles
+
+- Partir du général pour aller au particulier
+
+- Partir des cas particuliers pour aller au général
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Exemple : du particulier
+
+```java [0 | 8-12 | 23 | 30-34]
+public class ValidateISBN {
+
+	public boolean checkISBN(String isbn) {
+		
+		if(isbn.length()==13) {
+			int total = 0;
+			for (int i=0;i<13; i++) {
+				if(i %2 == 0) {
+					total += Character.getNumericValue(isbn.charAt(i));
+				} else {
+					total += Character.getNumericValue(isbn.charAt(i))* 3;
+				}
+				
+				}
+			if (total %10 == 0) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		} else {
+			if(isbn.length()!=10) {
+				throw new NumberFormatException();
+			}
+			
+			int total = 0;
+			
+			for(int i=0; i<10;i++) {
+				if(!Character.isDigit(isbn.charAt(i))) {
+					if(i == 9 && isbn.charAt(i)== 'X') {
+						total +=10;
+					} else {
+						throw new NumberFormatException();
+					}
+				}else
+				  total += Character.getNumericValue(isbn.charAt(i)) * (10-i);
+				}
+			if(total%11 == 0) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+	}
+}
+```
+
+[Source](https://github.com/nahidvaf/ISBNValidator-Maven-java11/blob/master/src/main/java/com/yrgo/isbntools/ValidateISBN.java)
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Exemple : du général
+
+```java [0 | 5-21 | 21-43 ]
+public class ValidateISBN {
+
+	public boolean checkISBN(String isbn) {
+		
+		if(isbn.length()==13) {
+			int total = 0;
+			for (int i=0;i<13; i++) {
+				if(i %2 == 0) {
+					total += Character.getNumericValue(isbn.charAt(i));
+				} else {
+					total += Character.getNumericValue(isbn.charAt(i))* 3;
+				}
+				
+				}
+			if (total %10 == 0) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		} else {
+			if(isbn.length()!=10) {
+				throw new NumberFormatException();
+			}
+			
+			int total = 0;
+			
+			for(int i=0; i<10;i++) {
+				if(!Character.isDigit(isbn.charAt(i))) {
+					if(i == 9 && isbn.charAt(i)== 'X') {
+						total +=10;
+					} else {
+						throw new NumberFormatException();
+					}
+				}else
+				  total += Character.getNumericValue(isbn.charAt(i)) * (10-i);
+				}
+			if(total%11 == 0) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+	}
+}
+```
+
+[Source](https://github.com/nahidvaf/ISBNValidator-Maven-java11/blob/master/src/main/java/com/yrgo/isbntools/ValidateISBN.java)
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### Démonstration
+
+Refactorisons ce morceau de code !
+</script></section><section data-markdown><script type="text/template">
+## TDD
+
+### A vous de jouer !
+
+Réalisez le TP Gilded Rose</script></section></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
