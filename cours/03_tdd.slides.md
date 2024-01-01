@@ -785,4 +785,271 @@ Vérifier un numéro ISBN
 
 Réalisez le TP 3
 
+---
+
+# TDD
+
+## Legacy Code
+
+![red-green-refactor](assets/red-green-refactor.png) <!-- .element width="40%"  align="right" -->
+
+![java](assets/java.png) <!-- .element width="19%"  align="left" -->
+
 ----
+
+## TDD
+
+### Legacy Code
+
+- **Legacy Code** : code existant, hérité
+
+- A généralement mauvaise réputation
+
+----
+
+## TDD
+
+### Legacy Code
+
+Les problèmes du legacy code :
+
+- Pratiques anciennes, obsolètes, voire mauvaises
+
+- Les rédacteurs ne sont plus forcément présents (ou ne se souviennent plus)
+
+- La documenta**QUOI** ?!
+
+> Bref, souvent un vrai casse-tête !
+
+----
+
+## TDD
+
+### Legacy Code
+
+> Mais du coup, comment appliquer la TDD à un code existant ?
+
+----
+
+## TDD
+
+### Legacy Code
+
+Tout dépend de ce qui nous pousse à vouloir appliquer la TDD :
+
+- Ajout d'une nouvelle fonctionnalité
+
+- Refacoriser la codebase complète
+
+- Résoudre un bug
+
+----
+
+## TDD
+
+### Legacy Code : Refactoriser
+
+Quelques étapes :
+
+- Définir sa "roadmap" de refactorisation
+
+- Rédiger les test de cette feature
+
+- Refactoriser et faire passer les tests à chaque étape
+
+----
+
+## TDD
+
+### Legacy Code : Refactoriser
+
+L'intérêt de la TDD :
+
+- Tester avant de refactoriser augmente votre compréhension du code
+
+- Si vous cassez quelque chose, vous le saurez tout de suite !
+
+- Vous travaillerez globalement plus vite
+
+> C'est reculer pour mieux sauter
+
+----
+
+## TDD
+
+### Legacy Code : Ajouter une feature
+
+Quelques étapes :
+
+- On ne rédige que les tests de la nouvelle feature
+
+- Si notre feature doit toucher à du legacy, on ne touchera que les parties impactées
+
+----
+
+## TDD
+
+### Legacy Code : Corriger un bug
+
+Quelques étapes :
+
+- On ne crée les tests que pour la feature qui bug
+
+- On augmente notre niveau de compréhension des attendus
+
+- Et puis on corrige !
+
+> On cherche toujours à apporter les changements **minimums** !
+
+
+----
+
+## TDD
+
+### Legacy Code
+
+Dans tous les cas, on commence par déterminer : 
+
+- Les aspérités (if, switch, etc.)
+
+- Les boucles
+
+- Les dépendances
+
+----
+
+## TDD
+
+### Deux écoles
+
+- Partir du général pour aller au particulier
+
+- Partir des cas particuliers pour aller au général
+
+----
+
+## TDD
+
+### Exemple : du particulier
+
+```java [0 | 8-12 | 23 | 30-34]
+public class ValidateISBN {
+
+	public boolean checkISBN(String isbn) {
+		
+		if(isbn.length()==13) {
+			int total = 0;
+			for (int i=0;i<13; i++) {
+				if(i %2 == 0) {
+					total += Character.getNumericValue(isbn.charAt(i));
+				} else {
+					total += Character.getNumericValue(isbn.charAt(i))* 3;
+				}
+				
+				}
+			if (total %10 == 0) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		} else {
+			if(isbn.length()!=10) {
+				throw new NumberFormatException();
+			}
+			
+			int total = 0;
+			
+			for(int i=0; i<10;i++) {
+				if(!Character.isDigit(isbn.charAt(i))) {
+					if(i == 9 && isbn.charAt(i)== 'X') {
+						total +=10;
+					} else {
+						throw new NumberFormatException();
+					}
+				}else
+				  total += Character.getNumericValue(isbn.charAt(i)) * (10-i);
+				}
+			if(total%11 == 0) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+	}
+}
+```
+
+[Source](https://github.com/nahidvaf/ISBNValidator-Maven-java11/blob/master/src/main/java/com/yrgo/isbntools/ValidateISBN.java)
+
+----
+
+## TDD
+
+### Exemple : du général
+
+```java [0 | 5-21 | 21-43 ]
+public class ValidateISBN {
+
+	public boolean checkISBN(String isbn) {
+		
+		if(isbn.length()==13) {
+			int total = 0;
+			for (int i=0;i<13; i++) {
+				if(i %2 == 0) {
+					total += Character.getNumericValue(isbn.charAt(i));
+				} else {
+					total += Character.getNumericValue(isbn.charAt(i))* 3;
+				}
+				
+				}
+			if (total %10 == 0) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		} else {
+			if(isbn.length()!=10) {
+				throw new NumberFormatException();
+			}
+			
+			int total = 0;
+			
+			for(int i=0; i<10;i++) {
+				if(!Character.isDigit(isbn.charAt(i))) {
+					if(i == 9 && isbn.charAt(i)== 'X') {
+						total +=10;
+					} else {
+						throw new NumberFormatException();
+					}
+				}else
+				  total += Character.getNumericValue(isbn.charAt(i)) * (10-i);
+				}
+			if(total%11 == 0) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+	}
+}
+```
+
+[Source](https://github.com/nahidvaf/ISBNValidator-Maven-java11/blob/master/src/main/java/com/yrgo/isbntools/ValidateISBN.java)
+
+----
+
+## TDD
+
+### Démonstration
+
+Refactorisons ce morceau de code !
+
+----
+
+## TDD
+
+### A vous de jouer !
+
+Réalisez le TP Gilded Rose

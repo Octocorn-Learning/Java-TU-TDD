@@ -24,6 +24,7 @@ Vous serez évalué sur :
 
 Pour l'ajout de tests qui échouent : `git commit -m "test : nom du test :test_tube:"`
 Pour l'ajout de test qui passe : `git commit -m "test : nom de la feature :white_check_mark:"`
+Pour une feature terminée: `git commit -m "feat : nom de la feature :sparkles:"`
 
 > En cas d'oubli de commit, vous serez pénalisé !
 
