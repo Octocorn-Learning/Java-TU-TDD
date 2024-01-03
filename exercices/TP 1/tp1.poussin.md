@@ -17,7 +17,7 @@ Vous testerez également les erreurs explicitement déclarées dans le code.
 Vous devrez créer un repository sur GitHub, et y pousser votre code.
 
 Vous devrez respecter les consignes suivantes :
-- Le code source sera dans le dossier `./src/main/java`, et les tests dans le dossier `./src/main/test`.
+- Le code source sera dans le dossier `./src/main/java`, et les tests dans le dossier `./src/test/java`.
 - Chaque fichier `.java` sera dans un package correspondant à son exercice.
 - Vous réaliserez un commit par exercice, avec un message de commit explicite.
 
